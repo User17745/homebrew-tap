@@ -23,10 +23,11 @@ class JiraCliToolkit < Formula
   end
 
   on_linux do
-    on_intel do
-      url "https://github.com/User17745/jira-cli-toolkit/releases/download/v2.5.1/jira-cli-toolkit-linux-x86_64"
-      sha256 "4ca40bbf8b5a6b08f30b7591a8cbb946803bd3582a05e7ffb44b0b9d00b2adb2"
-    end
+    # Only an x86_64 Linux binary is published.
+    depends_on arch: :x86_64
+
+    url "https://github.com/User17745/jira-cli-toolkit/releases/download/v2.5.1/jira-cli-toolkit-linux-x86_64"
+    sha256 "4ca40bbf8b5a6b08f30b7591a8cbb946803bd3582a05e7ffb44b0b9d00b2adb2"
   end
 
   def install

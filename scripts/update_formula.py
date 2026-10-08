@@ -68,10 +68,11 @@ class JiraCliToolkit < Formula
   end
 
   on_linux do
-    on_intel do
-      url "{base}-linux-x86_64"
-      sha256 "{sha['linux-x86_64']}"
-    end
+    # Only an x86_64 Linux binary is published.
+    depends_on arch: :x86_64
+
+    url "{base}-linux-x86_64"
+    sha256 "{sha['linux-x86_64']}"
   end
 
   def install
