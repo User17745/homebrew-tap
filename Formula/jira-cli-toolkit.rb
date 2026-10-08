@@ -2,32 +2,31 @@
 class JiraCliToolkit < Formula
   desc "Independent CLI for Jira Cloud issues, sprints and REST APIs"
   homepage "https://jira.abhishekaggarwal.com/"
-  version "2.5.1"
   license "AGPL-3.0-only"
+
+  livecheck do
+    url :stable
+    strategy :github_latest
+  end
 
   on_macos do
     depends_on macos: :sequoia
 
     on_arm do
-      url "https://github.com/User17745/jira-cli-toolkit/releases/download/v#{version}/jira-cli-toolkit-macos-arm64"
+      url "https://github.com/User17745/jira-cli-toolkit/releases/download/v2.5.1/jira-cli-toolkit-macos-arm64"
       sha256 "ff6aed343a8d0bfdd598ed2f4516b053bfdb6b942a3cfc15b0f40e421e9af61e"
     end
     on_intel do
-      url "https://github.com/User17745/jira-cli-toolkit/releases/download/v#{version}/jira-cli-toolkit-macos-x86_64"
+      url "https://github.com/User17745/jira-cli-toolkit/releases/download/v2.5.1/jira-cli-toolkit-macos-x86_64"
       sha256 "1ddd97861b11d8fbfe309a802ea557c53c49ce6a9b67b661c8c6c8e01c1e4e26"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/User17745/jira-cli-toolkit/releases/download/v#{version}/jira-cli-toolkit-linux-x86_64"
+      url "https://github.com/User17745/jira-cli-toolkit/releases/download/v2.5.1/jira-cli-toolkit-linux-x86_64"
       sha256 "4ca40bbf8b5a6b08f30b7591a8cbb946803bd3582a05e7ffb44b0b9d00b2adb2"
     end
-  end
-
-  livecheck do
-    url :stable
-    strategy :github_latest
   end
 
   def install
@@ -39,6 +38,8 @@ class JiraCliToolkit < Formula
     assert_equal "jira #{version}", shell_output("#{bin}/jira --version").strip
     assert_match "usage: jira issue list", shell_output("#{bin}/jira help issue list")
     # Updates belong to Homebrew; the CLI must not replace its own Cellar files.
-    assert_match '"method": "homebrew"', shell_output("#{bin}/jira update --info --json") if version >= Version.new("2.5.2")
+    if version >= Version.new("2.5.2")
+      assert_match '"method": "homebrew"', shell_output("#{bin}/jira update --info --json")
+    end
   end
 end
