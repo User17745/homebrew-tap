@@ -1,0 +1,20 @@
+name: Test formula
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15, macos-15-intel, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: Homebrew/actions/setup-homebrew@9ffcbcc2c89631400988e8d4b1e3ac17dbbe3fe9
+      - run: brew audit --strict --online user17745/tap/jira-cli-toolkit
+      - run: brew install user17745/tap/jira-cli-toolkit
+      - run: brew test user17745/tap/jira-cli-toolkit

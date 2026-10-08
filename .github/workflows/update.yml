@@ -1,0 +1,47 @@
+name: Update formula
+# Daily check for a new stable CLI Toolkit for Jira release. Each binary's SHA-256 comes from
+# the release manifest and its GitHub build attestation is verified before the formula changes.
+on:
+  schedule:
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to use instead of the latest stable release, for example v2.5.2
+        required: false
+permissions:
+  contents: write
+concurrency:
+  group: update-formula
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - run: python3 scripts/update_formula.py ${{ inputs.tag }}
+      - id: diff
+        run: git diff --quiet Formula/ && echo "changed=false" >> "$GITHUB_OUTPUT" || echo "changed=true" >> "$GITHUB_OUTPUT"
+      - if: steps.diff.outputs.changed == 'true'
+        name: Verify release binaries
+        run: |
+          set -euo pipefail
+          tag=$(grep -oE 'download/v[^/]+' Formula/jira-cli-toolkit.rb | head -1 | cut -d/ -f2)
+          mkdir -p check
+          for target in macos-arm64 macos-x86_64 linux-x86_64; do
+            gh release download "$tag" --repo User17745/jira-cli-toolkit -p "jira-cli-toolkit-$target" -D check
+            expected=$(grep -A1 "jira-cli-toolkit-$target\"" Formula/jira-cli-toolkit.rb | grep -oE '[0-9a-f]{64}' | head -1)
+            echo "$expected  check/jira-cli-toolkit-$target" | sha256sum -c -
+            gh attestation verify "check/jira-cli-toolkit-$target" --repo User17745/jira-cli-toolkit
+          done
+          rm -rf check
+      - if: steps.diff.outputs.changed == 'true'
+        run: |
+          version=$(grep -oE 'download/v[^/]+' Formula/jira-cli-toolkit.rb | head -1 | cut -d/ -f2)
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -am "jira-cli-toolkit $version"
+          git push
