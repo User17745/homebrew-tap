@@ -23,11 +23,18 @@ class JiraCliToolkit < Formula
   end
 
   on_linux do
-    # Only an x86_64 Linux binary is published.
+    # Only an x86_64 Linux binary is published; ARM Linux is refused with this requirement.
+    # Both blocks name the same file so the formula still loads on every platform.
     depends_on arch: :x86_64
 
-    url "https://github.com/User17745/jira-cli-toolkit/releases/download/v2.5.1/jira-cli-toolkit-linux-x86_64"
-    sha256 "4ca40bbf8b5a6b08f30b7591a8cbb946803bd3582a05e7ffb44b0b9d00b2adb2"
+    on_intel do
+      url "https://github.com/User17745/jira-cli-toolkit/releases/download/v2.5.1/jira-cli-toolkit-linux-x86_64"
+      sha256 "4ca40bbf8b5a6b08f30b7591a8cbb946803bd3582a05e7ffb44b0b9d00b2adb2"
+    end
+    on_arm do
+      url "https://github.com/User17745/jira-cli-toolkit/releases/download/v2.5.1/jira-cli-toolkit-linux-x86_64"
+      sha256 "4ca40bbf8b5a6b08f30b7591a8cbb946803bd3582a05e7ffb44b0b9d00b2adb2"
+    end
   end
 
   def install

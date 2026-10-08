@@ -68,11 +68,18 @@ class JiraCliToolkit < Formula
   end
 
   on_linux do
-    # Only an x86_64 Linux binary is published.
+    # Only an x86_64 Linux binary is published; ARM Linux is refused with this requirement.
+    # Both blocks name the same file so the formula still loads on every platform.
     depends_on arch: :x86_64
 
-    url "{base}-linux-x86_64"
-    sha256 "{sha['linux-x86_64']}"
+    on_intel do
+      url "{base}-linux-x86_64"
+      sha256 "{sha['linux-x86_64']}"
+    end
+    on_arm do
+      url "{base}-linux-x86_64"
+      sha256 "{sha['linux-x86_64']}"
+    end
   end
 
   def install
