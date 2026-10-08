@@ -13,12 +13,12 @@ class JiraCliToolkit < Formula
     depends_on macos: :sequoia
 
     on_arm do
-      url "https://github.com/User17745/jira-cli-toolkit/releases/download/v2.5.1/jira-cli-toolkit-macos-arm64"
-      sha256 "ff6aed343a8d0bfdd598ed2f4516b053bfdb6b942a3cfc15b0f40e421e9af61e"
+      url "https://github.com/User17745/jira-cli-toolkit/releases/download/v2.5.2/jira-cli-toolkit-macos-arm64"
+      sha256 "d830c1f1c4170e210575973e173b86b6b03f2bdc8968e856d243d3a0b9e3c73f"
     end
     on_intel do
-      url "https://github.com/User17745/jira-cli-toolkit/releases/download/v2.5.1/jira-cli-toolkit-macos-x86_64"
-      sha256 "1ddd97861b11d8fbfe309a802ea557c53c49ce6a9b67b661c8c6c8e01c1e4e26"
+      url "https://github.com/User17745/jira-cli-toolkit/releases/download/v2.5.2/jira-cli-toolkit-macos-x86_64"
+      sha256 "0cddd5ea655faf68c0671bd782f15f971ea4199624e54b662d77f5ab4936eb30"
     end
   end
 
@@ -28,12 +28,12 @@ class JiraCliToolkit < Formula
     depends_on arch: :x86_64
 
     on_intel do
-      url "https://github.com/User17745/jira-cli-toolkit/releases/download/v2.5.1/jira-cli-toolkit-linux-x86_64"
-      sha256 "4ca40bbf8b5a6b08f30b7591a8cbb946803bd3582a05e7ffb44b0b9d00b2adb2"
+      url "https://github.com/User17745/jira-cli-toolkit/releases/download/v2.5.2/jira-cli-toolkit-linux-x86_64"
+      sha256 "37093168bc86e9f2236ccdf9f0d1fcf2926e1320a0f4ae1a714dbf6e21311b0b"
     end
     on_arm do
-      url "https://github.com/User17745/jira-cli-toolkit/releases/download/v2.5.1/jira-cli-toolkit-linux-x86_64"
-      sha256 "4ca40bbf8b5a6b08f30b7591a8cbb946803bd3582a05e7ffb44b0b9d00b2adb2"
+      url "https://github.com/User17745/jira-cli-toolkit/releases/download/v2.5.2/jira-cli-toolkit-linux-x86_64"
+      sha256 "37093168bc86e9f2236ccdf9f0d1fcf2926e1320a0f4ae1a714dbf6e21311b0b"
     end
   end
 
